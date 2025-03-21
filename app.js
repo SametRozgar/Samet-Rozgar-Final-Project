@@ -34,10 +34,26 @@
                 {
                     //Html yapısını oluştur 
                     const container=$(`<div>`).addClass(CONTAINER);
+
                     const carousel=$(`<div>`).addClass(`product-carousel`);
+                   
                     const carouselTitleDiv=$(`<div>`).addClass(`carousel-title-Div`);
+
                     const carouselTitle=$(`<h2>`).addClass(`carousel-title`).text("Sizin için Seçtiklerimiz");
                    
+                   const navButtons=$(
+                    `
+                    <div class="carousel-nav">
+                        <button class="carousel-prev">‹</button>
+                        <button class="carousel-next">›</button>
+                    </div>
+                    
+                    `
+                   )
+
+                  
+
+
                     carouselTitleDiv.append(carouselTitle);
                     
                     $.each(products,function(index,product){
@@ -57,28 +73,33 @@
  
 
                         <div class="product-info">
-                            <div class="brand">
-                                ${product.brand}
+                            <div class="description">
+                               <span class="product-brand"> ${product.brand} -</span><span class="product-name">
+                                ${product.name}</span>
+                          
                             </div>
-                            <h3 class="product-name">
-                                ${product.name}
-                            </h3>
+
+                            
+                           
                             <div class="product-price-container">
                             ${product.price !==product.original_price?
                                 `<span class="product-original-price"> ${product.original_price} ₺ </span> <span class="discount"> % ${discountPercentage}</span>`:``  
                             }
                             <span class="current-price" ${product.price !== product.original_price ? `Sepette : ` : ``}>
-                            ${product.price} ₺
+                            Sepette 
+                            ${product.price} TL
                             </span>
                             <div/>
                         <div/>
+
+                        <button class="add-to-cart-btn">Sepete Ekle</button>
 
                         
                         `);
                         carousel.append(porductCard); //ürün detaylarını içeren ürün kartını daha önce oluşturulmuş carousel divine append et
                     })
                     
-                    container.append(carouselTitleDiv,carousel);
+                    container.append(carouselTitleDiv,carousel,navButtons);
                     $(`.banner__titles`).before(container);//carousel başlığını ve carousel divini container divine append et
 
                 }
@@ -90,27 +111,34 @@
                  .product-carousel-container{
                  display:flex;
                  flex-direction:column;
-                 justify-content:center;
+                     justify-content: space-between;
+
                  width:100%;
                  
                  margin:20px auto;
 
                  }
                  .carousel-title-Div{
-                 text-align:center;
-                 background-color:#fef6eb;
-                 padding:15px;
-                 width:100%;
-                 border-radius:15% 15% 0 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background-color: #fef6eb;
+                    padding: 25px 67px;
+                    border-top-left-radius: 35px;
+                    border-top-right-radius: 35px;
+                    font-family: Quicksand-Bold;
+                    font-weight: 500;
 
 
                  }
 
                  .carousel-title{
-                 color:#f28e00;
-                 font-family:'Poppins', 'Arial', sans-serif;
-                 font-weight:bold;
-                 font-size:24px;
+                   font-family: Quicksand-Bold;
+                    font-size: 3rem;
+                    font-weight: 700;
+                    line-height: 1.11;
+                    color: #f28e00;
+                    margin: 0;
 
                  }
 
@@ -129,19 +157,27 @@
                 
                 
                 .product-card {
+                   display:flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    position: relative;
                     flex: 0 0 auto;
-                    width: 250px;
+                    width: 245px;
+                    height:501px;
                     background: #fff;
-                    border-radius: 12px;
-                    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                    border-radius: 10px;
+                    border: 1px solid #ededed;
+                    margin: 0 0 20px 3px;
                     padding: 15px;
                     text-align: center;
                     cursor: pointer;
-                    transition: transform 0.3s ease-in-out;
+                    
                 }
 
                 .product-card:hover {
-                    transform: scale(1.05);
+                    
+                    border:4px solid #f28e00;
+                    padding: 12px;
                 }
 
                 .product-image-div {
@@ -161,13 +197,25 @@
                 }
 
                 .favorite-icon {
+                
                     position: absolute;
+                    display: flex;
                     top: 10px;
                     right: 10px;
                     font-size: 22px;
                     cursor: pointer;
                     color: #ccc;
                     transition: color 0.3s ease;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 4px 0 #00000024;
+                    width: 50px;
+                    align-items: center;
+                    justify-content: center;
+                    height: 50px;
+                }
+                
+                .favorite-icon:hover{
+                border:2px solid #FF6F61;
                 }
 
                 .favorite-icon.active {
@@ -175,18 +223,26 @@
                 }
 
                 .product-info {
+                flex-grow:1;
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
                     margin-top: 10px;
                 }
 
-                .brand {
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: #333;
+                .product-brand {
+                color:#7d7d7d;
+                    font-size:14px;
+                    font-weight: bolder;
+                   
+                    
                 }
 
                 .product-name {
-                    font-size: 16px;
-                    color: #555;
+                    font-size: 12px;
+                   Arial, sans-serif;
+                    color: #7d7d7d;
+                    font-weight:bold;
                     margin: 5px 0;
                 }
 
@@ -199,7 +255,7 @@
 
                 .product-original-price {
                     text-decoration: line-through;
-                    color: #999;
+                    color: #7d7d7d;
                     font-size: 14px;
                 }
 
@@ -210,28 +266,55 @@
                 }
 
                 .current-price {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #f28e00;
+                background-color:#eaf8f3;
+                        font-size: 1.08rem;
+                    font-weight: 600;
+                        padding: 5.5px 9px 4.5px;
+                    color:#4bb788;
+                        border-radius: 15px;
                 }
 
                 .add-to-cart-btn {
-                    display: block;
-                    background: #f28e00;
-                    color: #fff;
-                    font-size: 16px;
-                    font-weight: bold;
-                    padding: 8px 12px;
-                    border-radius: 6px;
-                    margin-top: 10px;
-                    text-align: center;
-                    cursor: pointer;
-                    transition: background 0.3s;
+                    width: 200px;
+                    padding: 15px 20px;
+                    border-radius: 37.5px;
+                    background-color: #fff7ec;
+                    color: #f28e00;
+                    font-family: Poppins, "cursive";
+                    font-size: 1.4rem;
+                    font-weight: 700;
+
                 }
 
                 .add-to-cart-btn:hover {
-                    background: #d97d00;
+                color:#fff;
+                    background: #f28e00;
                 }
+
+                .carousel-nav button {
+                     position: absolute;
+                     top: 50%;
+                     transform: translateY(-50%);
+                     width: 50px;
+                     height: 50px;
+                     border-radius: 50%;
+                     background: #fef6eb;
+                     border: none;
+                     color: #f28e00;
+                     font-size: 24px;
+                     cursor: pointer;
+                     transition: all 0.3s;
+                     z-index: 2;
+                    }
+
+                    .carousel-prev { left: -25px; }
+                    .carousel-next { right: -25px; }
+                    
+                    .carousel-nav button:hover {
+                        background: white !important;
+                        border: 1px solid #f28e00;
+                    }
+
                 
                 `
                 $(`<style>`).addClass(`carousel-style`).html(css).appendTo(`head`); //css yapısını head e append et
@@ -249,7 +332,7 @@
                     const productId=parseInt($icon.data(`product-id`));
                     const favorites=getFavorites();
 
-                    if(favorites.include(productId))
+                    if(favorites.includes(productId))
                     {
                         $icon.removeClass(`active`);
                         saveToFavorites(favorites.filter(id=>id !==productId));
