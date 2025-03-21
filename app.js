@@ -44,13 +44,45 @@
                     const discountPercentage=Math.round(1-(product.price/product.original_price)*100); //indirim yüzdesini hesapla
 
                     const porductCard=$(`<div>`).addClass(`product-card`).html(`
-                        
-                        
-                        `)
-                    })
 
+
+                        <div class="product-image-div">
+                            <img src="${product.img}" alt="${product.name} görseli"></img>
+                            <div class="favorite-icon" ${getFavorites().includes(product.id)? `active`:`deactive`} data-product-id="${product.id}">
+                            ❤
+                            </div>
+                        <div/>
+ 
+
+                        <div class="product-info">
+                            <div class="brand">
+                                ${product.brand}
+                            </div>
+                            <h3 class="product-name">
+                                ${product.name}
+                            </h3>
+                            <div class="product-price-container">
+                            ${product.price !==product.original_price?
+                                `<span class="product-original-price"> ${product.original_price} ₺ </span> <span class="discount"> % ${discountPercentage}</span>`:``  
+                            }
+                            <span class="current-price" ${product.price !== product.original_price ? `Sepette : ` : ``}>
+                            ${product.price} ₺
+                            </span>
+                            <div/>
+                        <div/>
+
+                        
+                        `);
+                        carousel.append(porductCard); //ürün detaylarını içeren ürün kartını daha önce oluşturulmuş carousel divine append et
+                    })
+                    
+                    container.append(carouselTitleDiv,carousel);
+                    $(`eb-banner`).after(container);//carousel başlığını ve carousel divini container divine append et
 
                 }
+                
+                
+
             }
         })(jQuery);
       }
