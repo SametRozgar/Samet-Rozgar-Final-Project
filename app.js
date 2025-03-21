@@ -50,7 +50,7 @@
 
                         <div class="product-image-div">
                             <img src="${product.img}" alt="${product.name} görseli"></img>
-                            <div class="favorite-icon" ${getFavorites().includes(product.id)? `active`:`deactive`} data-product-id="${product.id}">
+                            <div class="favorite-icon" ${getFavorites().includes(product.id)? "active":"deactive"} data-product-id="${product.id}">
                             ❤
                             </div>
                         </div>
@@ -243,7 +243,7 @@
             //Olay dinleyiciler (Events) - favoriye ekleme işlevini local storage üzerinden işle
             const setEvents =()=>
             {
-                $(document).on(`click`,`favorite-icon`,function(event){
+                $(document).on(`click`,`.favorite-icon`,function(event){
                     event.stopPropagation();
                     const $icon=$(this);
                     const productId=parseInt($icon.data(`product-id`));
@@ -284,28 +284,29 @@
 
             //kodu başlat
 
-            const init=()=>
-            {
-                let products=JSON.parse(localStorage.getItem(`chacedProducts`)||`null`);
-
-                if(!products){
-                    loadProducts().done(data=>{
-                        if(data.length){
-                            localStorage.setItem(`chacedProducts`,JSON.stringify(data));
-                            createHTML(data);
-                            generateCSS();
-                            setEvents();
-                        }else{
-                            createHTML(products);
-                            generateCSS();
-                            setEvents();
-                        }
-                    })
+            const init = () => {
+                let products =
+                  JSON.parse(localStorage.getItem(`chacedProducts`)) || null;
+        
+                if (!products) {
+                  loadProducts().done((data) => {
+                    if (data.length) {
+                      localStorage.setItem(`chacedProducts`, JSON.stringify(data));
+                      createHTML(data);
+                      generateCSS();
+                      setEvents();
+                    }
+                  });
+                } else {
+                  createHTML(products);
+                  generateCSS();
+                  setEvents();
                 }
-            }
-           
+              };
             $(document).ready(init);
+            
         }
+       
         })(jQuery);
       }
 
