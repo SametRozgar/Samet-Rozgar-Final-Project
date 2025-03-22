@@ -216,6 +216,7 @@
                     .product-info {
                         margin-top: 10px;
                         display: flex;
+                        position: relative;
                         flex-direction: column;
                         justify-content: space-between;
                         flex-grow: 1;
@@ -260,6 +261,8 @@
                     .current-price {
                         background-color: #eaf8f3;
                         color: #4bb788;
+                        position: absolute;
+                          bottom: 20px;
                         font-weight: 600;
                         width: 59%;
                         padding: 5.5px 9px;
