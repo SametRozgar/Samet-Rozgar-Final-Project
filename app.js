@@ -30,8 +30,8 @@
 
                 const saveToFavorites=(id)=>localStorage.setItem(STORAGE_KEY,JSON.stringify(id));//Favoriye eklenen ürün verisini id parametresi ile al ve local storage set et
                 
-                const getRandomStars=()=>"⭐".repeat(Math.floor(Math.random()*5)+1);
-
+                const getRandomStars=()=>"⭐".repeat(5);
+                const getRandomNuber=()=>Math.floor(Math.random()*50+10)
                 const createHTML =(products)=>
                 {
                     //Html yapısını oluştur 
@@ -62,14 +62,21 @@
 
                         //indirim yüzdesi hesapla
                         const hasDiscount = product.price < product.original_price;
-                        const discountPercentage = hasDiscount
-                            ? Math.round(100 - (product.price / product.original_price * 100))
-                            : 0;
-                        
+                        const hasIncreasedPrice=product.price>product.original_price;
 
+                        const increasePercentage = hasIncreasedPrice 
+                        ? Math.round((product.price / product.original_price * 100) - 100)
+                        : 0;
+                        
+                        const discountPercentage = hasDiscount
+                        ? Math.round(100 - (product.price / product.original_price * 100))
+                        : 0;
+                        
+                         
                         //favori kontrolü ve random yıldız üret
                          const isFav=getFavorites().includes(product.id);
                          const starRating=getRandomStars();
+                         const rating=getRandomNuber();
 
 
                     //Ürünlerin yerleşeceği card yapısı
@@ -86,16 +93,21 @@
                                     <span class="product-brand">${product.brand} -</span>
                                     <span class="product-name">${product.name}</span>
                                 </div>
-                                <div class="star-rating">${starRating}</div>
+                                <div class="star-rating">${starRating } <span class="rating-number">(${rating})</span> </div>
                                 <div class="product-price-container">
-                                    ${hasDiscount
-                            ? `<span class="product-original-price">${product.original_price.toFixed(2)} TL -</span>
-                                       <span class="discount">%${discountPercentage} 💚</span>`
-                            : `<span class="product-original-price no-discount">${product.original_price.toFixed(2)} TL</span>`}
+                                ${hasDiscount
+                                    ? `<span class="product-original-price">${product.original_price.toFixed(2)} TL -</span>
+                                    <span class="discount">%${discountPercentage} 💚</span>`
+                                    : hasIncreasedPrice 
+                                    ? `<span class="product-original-price no-discount">${product.original_price.toFixed(2)} TL +</span>
+                                        <span class="price-increase">%${increasePercentage} 🔺</span>`
+                                    : `<span class="product-original-price no-discount">${product.original_price.toFixed(2)} TL</span>`}
                                 </div>
                                 ${hasDiscount
-                            ? `<span class="current-price">Sepette: ${product.price.toFixed(2)} TL</span>`
-                            : ''}
+                                    ? `<span class="current-price discount-price">${product.price.toFixed(2)} TL</span>`
+                                    : hasIncreasedPrice
+                                      ? `<span class="current-price increased-price">${product.price.toFixed(2)} TL</span>`
+                                      : ''}
                             </div>
                             <button class="add-to-cart-btn">Sepete Ekle</button>
                         </div>
@@ -233,12 +245,17 @@
                         margin: 5px 0;
                     }
                     .star-rating {
+                        margin-left: 10px;
                         margin-top: 5px;
-                        font-size: 18px;
+                        font-size: 15px;
                         color: gold;
                         text-align: left;
                     }
+                    .rating-number{
+                    color:#898585;
+                    }
                     .product-price-container {
+                    margin-left: 10px;
                         margin-bottom: 56px;
                         display: flex;
                         align-items: center;
@@ -247,7 +264,7 @@
                     .product-original-price {
                         text-decoration: line-through;
                         color: #7d7d7d;
-                        font-size: 2.2rem;
+                        font-size: 1.5rem;
                         font-weight: 600;
                     }
                     .discount {
@@ -257,18 +274,34 @@
                     }
                     .no-discount {
                         text-decoration: none;
+                        font-size: 2.4rem;
                     }
                     .current-price {
-                        background-color: #eaf8f3;
-                        color: #4bb788;
+                        
+                        color: #00a365;
                         position: absolute;
-                          bottom: 20px;
+                        bottom: 15px;
                         font-weight: 600;
                         width: 59%;
                         padding: 5.5px 9px;
                         border-radius: 15px;
-                        font-size: 1.08rem;
+                        font-size: 2.4rem;
                     }
+                        .price-increase {
+                        color: #ff4444;
+                        font-size: 21px;
+                        font-weight: bold;
+                        }
+                        .current-price.increased-price {
+                            color: #ff4444;
+                            position: absolute;
+                            bottom: 15px;
+                            font-weight: 600;
+                            width: 59%;
+                            padding: 5.5px 9px;
+                            border-radius: 15px;
+                            font-size: 2.4rem;
+                        }
                     .add-to-cart-btn {
                         width: 100%;
                         padding: 15px;
