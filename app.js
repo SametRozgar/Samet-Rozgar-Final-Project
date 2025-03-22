@@ -149,7 +149,7 @@
                         display: flex;
                         flex-wrap: nowrap;
                         overflow-x: auto;
-                        gap: 15px;
+                        gap: 12px;
                         padding: 20px 0;
                         scroll-behavior: smooth;
                         width: 100%;
@@ -159,18 +159,22 @@
                     }
                     .product-card {
                         flex: 0 0 auto;
-                        width: 245px;
-                        height: 501px;
+                        width: 247px;
+                        height: 598px;
                         background: #fff;
                         border-radius: 10px;
                         border: 1px solid #ededed;
                         padding: 15px;
                         text-align: center;
-                        gap: 3rem;
+                        gap: 4rem;
                         cursor: pointer;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
+                    }
+                        .product-card:hover {
+                        border: 4px solid #f28e00;
+                        padding: 12px;
                     }
                     
                     .product-image-div {
@@ -234,7 +238,7 @@
                         text-align: left;
                     }
                     .product-price-container {
-                        margin-top: 10px;
+                        margin-bottom: 56px;
                         display: flex;
                         align-items: center;
                         flex-direction: row;
@@ -280,19 +284,20 @@
                     .carousel-nav {
                         position: absolute;
                         display:flex;
-                        justify:content:center;
-                        align:items:center;
+                        justify-content:center;
+                        align-items:center;
                         top: 50%;
                         transform: translateY(-50%);
                         width: 100%;
                         pointer-events: none;
                     }
 
-                    .carousel-nav:hover
-                    {
-                    color:#fff;
-                    background-color:#ff8800;
-                    
+                .carousel-prev:hover, 
+                .carousel-next:hover {
+
+                    background-color: #ff8800 !important;
+                    color: white !important;
+                    border-color: #ff8800 !important;
                     }
 
                     .carousel-prev, .carousel-next {
