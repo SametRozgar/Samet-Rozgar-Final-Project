@@ -337,6 +337,18 @@
                         padding: 12px;
                         cursor: pointer;
                     }
+
+                    @media(max-width:750px)
+                    {
+                        .special-cart {
+                            display: none !important;
+                        }
+
+                        .carousel-prev,
+                        .carousel-next {
+                            display: none !important;
+                        }
+                    }
                 `;
                 $(`<style>`).addClass(`carousel-style`).html(css).appendTo(`head`); //css yapısını head e append et
             }
