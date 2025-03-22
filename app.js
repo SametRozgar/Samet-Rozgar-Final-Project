@@ -43,7 +43,18 @@
 
                     const carouselTitle=$(`<h2>`).addClass(`carousel-title`).text("Sizin için Seçtiklerimiz");
                     carouselTitleDiv.append(carouselTitle);
+                    
+                    //ürün card yapısnın sol üst köşesinde bulunan çok satan,kargo bedava gibi sticker öğelerini random olarak ürünlere dağıt
+                    const STICKERS = {
+                        BEST_SELLER: "https://www.e-bebek.com/assets/images/cok-satan.png",
+                        STARRED: "https://www.e-bebek.com/assets/images/yildiz-urun@2x.png",
+                        FREE_SHIPPING: "https://www.e-bebek.com/assets/images/kargo-bedava@2x.png"
+                      };
 
+                      const getRandomSticker = () => {
+                        const stickerValues = Object.values(STICKERS);
+                        return stickerValues[Math.floor(Math.random() * stickerValues.length)];
+                      };
 
                     //sol poster için özel div yapısı
                     const specialImageCard = $(`  
@@ -54,11 +65,11 @@
                         </div>
                     `);
                     carousel.append(specialImageCard);
-
-
                     
                     
                     $.each(products,function(index,product){
+
+                        
 
                         //indirim yüzdesi hesapla
                         const hasDiscount = product.price < product.original_price;
@@ -86,6 +97,9 @@
                         <div class="product-card" data-url="${product.url}">
                             <div class="product-image-div">
                                 <img src="${product.img}" alt="${product.name}">
+                                    <div class="product-sticker">
+                                        <img src="${getRandomSticker()}" alt="Sticker">
+                                    </div>
                                 <div class="favorite-icon ${isFav ? 'active' : ''}" data-product-id="${product.id}">❤</div>
                             </div>
                             <div class="product-info">
@@ -96,11 +110,11 @@
                                 <div class="star-rating">${starRating } <span class="rating-number">(${rating})</span> </div>
                                 <div class="product-price-container">
                                 ${hasDiscount
-                                    ? `<span class="product-original-price">${product.original_price.toFixed(2)} TL -</span>
-                                    <span class="discount">%${discountPercentage} 💚</span>`
+                                    ? `<span class="product-original-price">${product.original_price.toFixed(2)} TL  </span>
+                                    <span class="discount"> &nbsp; %${discountPercentage} 💚</span>`
                                     : hasIncreasedPrice 
-                                    ? `<span class="product-original-price no-discount">${product.original_price.toFixed(2)} TL +</span>
-                                        <span class="price-increase">%${increasePercentage} 🔺</span>`
+                                    ? `<span class="product-original-price no-discount hasIncrease">${product.original_price.toFixed(2)} TL  </span>
+                                        <span class="price-increase">  &nbsp; %${increasePercentage} 🔺</span>`
                                     : `<span class="product-original-price no-discount">${product.original_price.toFixed(2)} TL</span>`}
                                 </div>
                                 ${hasDiscount
@@ -219,6 +233,30 @@
                         box-shadow: 0 2px 4px 0 #00000024;
                         transition: color 0.3s ease;
                     }
+
+                    .product-sticker {
+                        position: absolute;
+                        top: 10px;
+                        left: 10px;
+                        z-index: 2;
+                        width: 50px;
+                        height: 50px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: white;
+                        border-radius: 50%;
+                        box-shadow: 0 2px 4px 0 #00000024;
+                    }
+                        .product-sticker img {
+                        max-width: 80%;
+                        max-height: 80%;
+                        object-fit: contain;
+                    }
+
+                    .special-cart .product-sticker {
+                        display: none !important;
+                    }
                     .favorite-icon:hover {
                         border: 2px solid #ff8800;
                     }
@@ -244,6 +282,10 @@
                         color: #7d7d7d;
                         margin: 5px 0;
                     }
+                        .description{
+                        width:100%;
+                        height: 70px;
+                        }
                     .star-rating {
                         margin-left: 10px;
                         margin-top: 5px;
@@ -267,6 +309,14 @@
                         font-size: 1.5rem;
                         font-weight: 600;
                     }
+                        .special-image{
+                        height:600px;
+                        }
+                        .hasIncrease{
+                           text-decoration: line-through !important;
+                            color: #7d7d7d;
+                            font-size: 1.5rem !important;
+                        }
                     .discount {
                         color: green;
                         font-size: 21px;
@@ -331,9 +381,9 @@
                 .carousel-prev:hover, 
                 .carousel-next:hover {
 
-                    background-color: #ff8800 !important;
-                    color: white !important;
-                    border-color: #ff8800 !important;
+                    background-color:rgb(252, 252, 252) !important;
+                     color: #f28e00;
+                    border: 1px solid #f28e00;
                     }
 
                     .carousel-prev, .carousel-next {
@@ -349,7 +399,7 @@
                     height: 50px;
                     border-radius: 50%;
                     background: #fef6eb;
-                    border: 1px solid #f28e00;
+                    
                     color: #f28e00;
                     font-size: 50px;
                     cursor: pointer;
@@ -382,6 +432,14 @@
                             display: none !important;
                         }
                     }
+                        
+                    @media(max-width:480px)
+                    {
+                       .carousel-title-Div{
+                       background-color:#fff;
+                      
+                       }
+                    }
                 `;
                 $(`<style>`).addClass(`carousel-style`).html(css).appendTo(`head`); //css yapısını head e append et
             }
@@ -395,10 +453,10 @@
                 const scrollAmount = 260;
 
                 $(".carousel-prev").click(() => {
-                    carousel.animate({ scrollLeft: `-=${scrollAmount}` }, 50);
+                    carousel.animate({ scrollLeft: `-=${scrollAmount}` }, 0);
                 });
                 $(".carousel-next").click(() => {
-                    carousel.animate({ scrollLeft: `+=${scrollAmount}` },50);
+                    carousel.animate({ scrollLeft: `+=${scrollAmount}` },0);
                 });
 
                 $(document).on("click", ".favorite-icon", function (e) {
